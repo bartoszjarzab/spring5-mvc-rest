@@ -7,12 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
-@RequestMapping("/api/v1/customers/")
+@RequestMapping("/api/v1/customers")
 public class CustomerController {
     private final CustomerService customerService;
 
@@ -21,16 +19,23 @@ public class CustomerController {
         this.customerService = customerService;
     }
 
-    @GetMapping
+    @GetMapping({"","/"})
     public ResponseEntity<CustomerListDTO> getAllCustomers(){
 
         return new ResponseEntity<CustomerListDTO>(
                 new CustomerListDTO(customerService.getAllCustomers()), HttpStatus.OK);
     }
-    @GetMapping("{id}")
+    @GetMapping({"/{id}","/{id}/"})
     public ResponseEntity<CustomerDTO> getCustomerById(@PathVariable Long id){
 
         return new ResponseEntity<CustomerDTO>(
                 customerService.getCustomerById(id),HttpStatus.OK);
+    }
+
+    @PostMapping({"","/"})
+    public ResponseEntity<CustomerDTO> createNewCustomer(@RequestBody CustomerDTO customerDTO){
+
+
+        return new ResponseEntity<CustomerDTO>(customerService.createNewCustomer(customerDTO),HttpStatus.CREATED);
     }
 }
