@@ -50,7 +50,6 @@ class CustomerControllerTest {
     void getAllCustomers() throws Exception {
         //given
         CustomerDTO customer = new CustomerDTO();
-        customer.setId(ID);
         customer.setFirstName(FIRST_NAME);
         customer.setLastName(LAST_NAME);
 
@@ -71,7 +70,6 @@ class CustomerControllerTest {
 
         //given
         CustomerDTO customer = new CustomerDTO();
-        customer.setId(ID);
         customer.setFirstName(FIRST_NAME);
         customer.setLastName(LAST_NAME);
 
@@ -93,7 +91,6 @@ class CustomerControllerTest {
         CustomerDTO returnDTO = new CustomerDTO();
         returnDTO.setFirstName(FIRST_NAME);
         returnDTO.setLastName(LAST_NAME);
-        returnDTO.setId(ID);
         returnDTO.setCustomerURL("/api/v1/customers/"+ID.toString());
 
         when(customerService.createNewCustomer(any(CustomerDTO.class))).thenReturn(returnDTO);
@@ -105,5 +102,28 @@ class CustomerControllerTest {
                 .andExpect(jsonPath("$.firstName", equalTo(FIRST_NAME)))
                 .andExpect(jsonPath("$.customer_url",equalTo("/api/v1/customers/1")));
     }
+    @Test
+    void testUpdateCustomer() throws Exception {
+
+        //given
+        CustomerDTO customer = new CustomerDTO();
+        customer.setFirstName(FIRST_NAME);
+        customer.setLastName(LAST_NAME);
+
+        CustomerDTO returnDTO = new CustomerDTO();
+        returnDTO.setFirstName(FIRST_NAME);
+        returnDTO.setLastName(LAST_NAME);
+        returnDTO.setCustomerURL("/api/v1/customers/"+ID.toString());
+
+        when(customerService.saveCustomerByDTO(anyLong(),any(CustomerDTO.class))).thenReturn(returnDTO);
+
+        mockMvc.perform(MockMvcRequestBuilders.put("/api/v1/customers/1")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(asJsonString(customer)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.firstName", equalTo(FIRST_NAME)))
+                .andExpect(jsonPath("$.customer_url",equalTo("/api/v1/customers/1")));
+    }
+
 
 }

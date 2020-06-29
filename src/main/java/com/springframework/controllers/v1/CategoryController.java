@@ -18,19 +18,20 @@ public class CategoryController {
 
     @Autowired
     public CategoryController(CategoryService categoryService) {
+
         this.categoryService = categoryService;
     }
 
     @GetMapping({"","/"})
     public ResponseEntity<CategoryListDTO> getAllCategories(){
 
-        return new ResponseEntity<CategoryListDTO>(
+        return new ResponseEntity<>(
                 new CategoryListDTO(categoryService.getAllCategories()), HttpStatus.OK);
     }
     @GetMapping({"/{name}","/{name}/"})
     public ResponseEntity<CategoryDTO> getCategoryByName(@PathVariable String name){
 
-        return new ResponseEntity<CategoryDTO>(
+        return new ResponseEntity<>(
                 categoryService.getCategoryByName(name),HttpStatus.OK);
     }
 }

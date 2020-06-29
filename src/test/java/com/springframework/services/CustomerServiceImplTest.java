@@ -9,15 +9,21 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.http.MediaType;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
+import static com.springframework.controllers.v1.AbstractRestControllerTest.asJsonString;
+import static org.hamcrest.Matchers.equalTo;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 class CustomerServiceImplTest {
 
@@ -66,7 +72,6 @@ class CustomerServiceImplTest {
         CustomerDTO customerDTO = customerService.getCustomerById(ID);
 
         //then
-        assertEquals(ID,customerDTO.getId());
         assertEquals(FIRST_NAME,customerDTO.getFirstName());
         assertEquals(LAST_NAME,customerDTO.getLastName());
 
@@ -91,8 +96,29 @@ class CustomerServiceImplTest {
 
         //then
         assertEquals(customerDTO.getFirstName(),savedDTO.getFirstName());
-        assertEquals(ID,savedDTO.getId());
         assertEquals("/api/v1/customers/1",savedDTO.getCustomerURL());
 
+    }
+    @Test
+    void saveCustomerByDTO() throws Exception {
+
+        //given
+        CustomerDTO customerDTO = new CustomerDTO();
+        customerDTO.setFirstName(FIRST_NAME);
+        customerDTO.setLastName(LAST_NAME);
+
+        Customer savedCustomer = new Customer();
+        savedCustomer.setLastName(LAST_NAME);
+        savedCustomer.setFirstName(FIRST_NAME);
+        savedCustomer.setId(ID);
+
+        when(customerRepository.save(any(Customer.class))).thenReturn(savedCustomer);
+
+        //when
+        CustomerDTO savedDTO = customerService.saveCustomerByDTO(ID,customerDTO);
+
+        //then
+        assertEquals(customerDTO.getFirstName(),savedDTO.getFirstName());
+        assertEquals("/api/v1/customers/1",savedDTO.getCustomerURL());
     }
 }
