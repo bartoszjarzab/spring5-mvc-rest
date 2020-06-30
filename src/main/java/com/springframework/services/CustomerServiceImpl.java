@@ -31,7 +31,7 @@ public class CustomerServiceImpl implements CustomerService {
                 .stream()
                 .map(customer -> {
                     CustomerDTO customerDTO = customerMapper.customerToCustomerDTO(customer);
-                    customerDTO.setCustomerURL("/api/v1/customers/" +customer.getId());
+                    enhanceWithURL(customer.getId(), customerDTO);
                     return customerDTO;
                 })
                 .collect(Collectors.toList());
@@ -44,7 +44,7 @@ public class CustomerServiceImpl implements CustomerService {
                 .findById(id)
                 .map(customer -> {
                     CustomerDTO customerDTO = customerMapper.customerToCustomerDTO(customer);
-                    customerDTO.setCustomerURL("/api/v1/customers/" +customer.getId());
+                    enhanceWithURL(id, customerDTO);
                     return customerDTO;
                 })
                 .orElseThrow(RuntimeException::new); //todo implement better exception handling
@@ -54,8 +54,12 @@ public class CustomerServiceImpl implements CustomerService {
     private CustomerDTO saveAndReturnDAO(Customer customer){
         Customer savedCustomer = customerRepository.save(customer);
         CustomerDTO returnDTO = customerMapper.customerToCustomerDTO(savedCustomer);
-        returnDTO.setCustomerURL("/api/v1/customers/" + savedCustomer.getId());
+        enhanceWithURL(savedCustomer.getId(),returnDTO);
         return returnDTO;
+    }
+    private CustomerDTO enhanceWithURL(Long id,CustomerDTO customerDTO){
+        customerDTO.setCustomerURL("/api/v1/customers/" + id);
+        return customerDTO;
     }
 
     @Override
@@ -73,6 +77,19 @@ public class CustomerServiceImpl implements CustomerService {
         return saveAndReturnDAO(customer);
     }
 
+    @Override
+    public CustomerDTO patchCustomer(Long id, CustomerDTO customerDTO) {
+        return customerRepository.findById(id).map(customer -> {
+                if(customerDTO.getFirstName()!=null){
+                    customer.setFirstName(customerDTO.getFirstName());
+                }
+                if(customerDTO.getLastName()!=null){
+                    customer.setLastName(customerDTO.getLastName());
+                }
+                return saveAndReturnDAO(customer);
+
+        }).orElseThrow(RuntimeException::new); //todo implement better
+    }
 
 
 }
