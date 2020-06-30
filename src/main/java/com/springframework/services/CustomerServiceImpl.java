@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -47,7 +46,7 @@ public class CustomerServiceImpl implements CustomerService {
                     enhanceWithURL(id, customerDTO);
                     return customerDTO;
                 })
-                .orElseThrow(RuntimeException::new); //todo implement better exception handling
+                .orElseThrow(ResourceNotFoundException::new);
 
 
     }
@@ -88,7 +87,7 @@ public class CustomerServiceImpl implements CustomerService {
                 }
                 return saveAndReturnDAO(customer);
 
-        }).orElseThrow(RuntimeException::new); //todo implement better
+        }).orElseThrow(ResourceNotFoundException::new);
     }
 
     @Override
