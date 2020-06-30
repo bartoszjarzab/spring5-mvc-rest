@@ -21,7 +21,7 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -120,5 +120,11 @@ class CustomerServiceImplTest {
         //then
         assertEquals(customerDTO.getFirstName(),savedDTO.getFirstName());
         assertEquals("/api/v1/customers/1",savedDTO.getCustomerURL());
+    }
+
+    @Test
+    void deleteCustomerById() {
+        customerRepository.deleteById(ID);
+        verify(customerRepository,times(1)).deleteById(anyLong());
     }
 }
