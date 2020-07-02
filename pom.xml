@@ -29,4 +29,12 @@
         <springfox-swagger.version>2.9.2</springfox-swagger.version>
     </properties>
 
+    <dependencies>
+        <!-- to compensate for java 9+ not including jaxb -->
+        <dependency>
+            <groupId>javax.xml.bind</groupId>
+            <artifactId>jaxb-api</artifactId>
+        </dependency>
+    </dependencies>
+
 </project>
