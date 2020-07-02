@@ -1,8 +1,8 @@
 package com.springframework.services;
 
 import com.springframework.api.v1.mapper.CustomerMapper;
-import com.springframework.api.v1.model.CustomerDTO;
 import com.springframework.domain.Customer;
+import com.springframework.model.CustomerDTO;
 import com.springframework.repositories.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

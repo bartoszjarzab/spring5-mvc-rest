@@ -6,6 +6,10 @@
     <artifactId>rest-model</artifactId>
     <packaging>jar</packaging>
 
+    <properties>
+        <spring-boot.repackage.skip>true</spring-boot.repackage.skip>
+    </properties>
+
     <name>spring5-mvc-model</name>
     <description>Demo project for Spring Boot Rest</description>
 

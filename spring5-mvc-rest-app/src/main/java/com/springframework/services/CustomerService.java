@@ -1,6 +1,6 @@
 package com.springframework.services;
 
-import com.springframework.api.v1.model.CustomerDTO;
+import com.springframework.model.CustomerDTO;
 
 import java.util.List;
 

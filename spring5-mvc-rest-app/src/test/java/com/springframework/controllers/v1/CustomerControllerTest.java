@@ -1,6 +1,6 @@
 package com.springframework.controllers.v1;
 
-import com.springframework.api.v1.model.CustomerDTO;
+import com.springframework.model.CustomerDTO;
 import com.springframework.services.CustomerService;
 import com.springframework.services.ResourceNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
@@ -115,8 +115,8 @@ class CustomerControllerTest {
                     .content(asJsonString(customer))
                     .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isCreated())
-                .andExpect(jsonPath("$.firstName", equalTo(FIRST_NAME)))
-                .andExpect(jsonPath("$.customer_url",equalTo("/api/v1/customers/1")));
+                .andExpect(jsonPath("$.customerURL",equalTo("/api/v1/customers/1")))
+                .andExpect(jsonPath("$.firstName", equalTo(FIRST_NAME)));
     }
     @Test
     void testUpdateCustomer() throws Exception {
@@ -138,8 +138,8 @@ class CustomerControllerTest {
                     .content(asJsonString(customer))
                     .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.firstName", equalTo(FIRST_NAME)))
-                .andExpect(jsonPath("$.customer_url",equalTo("/api/v1/customers/1")));
+                .andExpect(jsonPath("$.customerURL",equalTo("/api/v1/customers/1")))
+                .andExpect(jsonPath("$.firstName", equalTo(FIRST_NAME)));
     }
     @Test
     void testPatchCustomer() throws Exception {
@@ -161,8 +161,8 @@ class CustomerControllerTest {
                     .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.firstName", equalTo(FIRST_NAME)))
-                .andExpect(jsonPath("$.lastName", equalTo(LAST_NAME)))
-                .andExpect(jsonPath("$.customer_url",equalTo("/api/v1/customers/1")));
+                .andExpect(jsonPath("$.customerURL",equalTo("/api/v1/customers/1")))
+                .andExpect(jsonPath("$.lastName", equalTo(LAST_NAME)));
     }
     @Test
     void testDeleteCustomer() throws Exception {

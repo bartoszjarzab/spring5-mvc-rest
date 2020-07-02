@@ -1,7 +1,7 @@
 package com.springframework.api.v1.mapper;
 
-import com.springframework.api.v1.model.CustomerDTO;
 import com.springframework.domain.Customer;
+import com.springframework.model.CustomerDTO;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
